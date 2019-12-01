@@ -292,7 +292,8 @@ lid rgb(221, 221, 221); line-height: 1;" target="_blank" href="'+_file.file_url+
                                                 _file.get_content()
                                                 # these attachments will be attached on-demand
                                                 # and won't be stored in the message
-                                                doc.attachments.append({"fid": file_id})				except IOError:
+                                                doc.attachments.append({"fid": file_id})
+				except IOError:
 					frappe.throw(_("Unable to find attachment {0}").format(a))
 			else:
 				doc.attachments.append(a)
