@@ -284,11 +284,14 @@ def prepare_to_notify(doc, print_html=None, print_format=None, attachments=None)
 					if not file_id:
 						frappe.throw(_("Unable to find attachment {0}").format(a))
 					file_id = file_id[0]['name']
-					_file = frappe.get_doc("File", file_id)
-					_file.get_content()
-					# these attachments will be attached on-demand
-					# and won't be stored in the message
-					doc.attachments.append({"fid": file_id})
+                                        if _file.file_url.startswith("http"):
+                                                doc.content += '<br/><a style="width: 396px; height: 18px; background-color: rgb(245, 245, 245); padding: 5px; font-family: arial; font-weight: bold; font-size: 13px; cursor: default; border: 1px so
+lid rgb(221, 221, 221); line-height: 1;" target="_blank" href="'+_file.file_url+'">'+_file.file_name+'</a>'
+                                        else:
+                                                _file.get_content()
+                                                # these attachments will be attached on-demand
+                                                # and won't be stored in the message
+                                                doc.attachments.append({"fid": file_id})
 				except IOError:
 					frappe.throw(_("Unable to find attachment {0}").format(a))
 			else:
